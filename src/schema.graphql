@@ -2,11 +2,33 @@ interface Node {
   id: ID!
 }
 
-type Something implements Node {
+interface Object {
   id: ID!
-  name: String
+}
+
+interface Entity {
+  id: ID!
+  object: Object
+}
+
+type PointCoordinates {
+  lat: Float!
+  lng: Float!
+}
+
+type ClimbObject implements Node & Object {
+  id: ID!
+  name: String!
+  coordinates: PointCoordinates!
+  description: String
+}
+
+type Climb implements Node & Entity {
+  id: ID!
+  object: ClimbObject
 }
 
 type Query {
-  foo: Something
+  climb(id: ID!): Climb
+  search(query: String!): [Climb]
 }
